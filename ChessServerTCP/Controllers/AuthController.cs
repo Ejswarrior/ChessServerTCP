@@ -26,9 +26,8 @@ namespace ChessServerTCP.Controllers
             var existingUserName = _context.User.Where<User>(_user => _user.userName == userName).FirstOrDefault();
 
             if (existingUserName != null) throw new Exception("Username already exists");
-            var hashedPassword = _salt.getSaltedValue(password);
 
-            var user = new User { id = "1234121sdasdsddasdasa", totalWins = 0, totalLosses = 0, userName = userName, password = hashedPassword};
+            var user = new User { id = "1234121sdasdsddasdasa", totalWins = 0, totalLosses = 0, userName = userName};
 
             try
             {

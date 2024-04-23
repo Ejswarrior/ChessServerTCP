@@ -11,8 +11,6 @@
 
         public string userName { get; set; }
 
-        public byte[] password { get; set; }
-
 
     }
 }

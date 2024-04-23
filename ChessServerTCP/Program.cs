@@ -1,13 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using ChessServerTCP.Models;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+string connectionString = builder.Configuration.GetConnectionString("default");
 builder.Services.AddControllers();
-builder.Services.AddDbContext<UserContext>(opt =>
-    opt.UseInMemoryDatabase("User"));
+builder.Services.AddDbContext<AppDBContext>(opt =>
+    opt.UseSqlServer(connectionString));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -25,6 +29,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
