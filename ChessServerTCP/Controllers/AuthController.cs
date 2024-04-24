@@ -10,7 +10,7 @@ namespace ChessServerTCP.Controllers
     [Route("login")]
     public class AuthController: ControllerBase
     {
-        private readonly UserContext _context;
+   /*     private readonly UserContext _context;
         private SaltValue _salt;
 
         public AuthController(UserContext context)
@@ -50,11 +50,6 @@ namespace ChessServerTCP.Controllers
 
             if (existingUser == null) throw new Exception("Invalid username or password");
 
-            var unHashedPassword = _salt.parsedSaltedValue(existingUser.password);
-
-            if (unHashedPassword != password) throw new Exception("Invalid username or password");
-
-
             return Ok(User);
 
         }
@@ -80,7 +75,7 @@ namespace ChessServerTCP.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
 
 
 
