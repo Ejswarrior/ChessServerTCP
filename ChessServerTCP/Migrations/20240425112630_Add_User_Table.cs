@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ChessServerTCP.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Add_User_Table : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -48,6 +48,22 @@ namespace ChessServerTCP.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    totalWins = table.Column<int>(type: "int", nullable: false),
+                    totalLosses = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -213,6 +229,9 @@ namespace ChessServerTCP.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

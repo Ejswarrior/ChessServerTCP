@@ -6,17 +6,19 @@ namespace ChessServerTCP.Models
 {
     public class AppDBContext : IdentityDbContext
     {
-        private readonly DbContextOptions _options;
+        public IConfiguration _config { get; set; }
 
-        public AppDBContext(DbContextOptions options) : base(options)
+        public AppDBContext(IConfiguration config)
         {
-            _options = options;
+            _config = config;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.UseSqlServer(_config.GetConnectionString("DatabaseConnection"));
 
         }
+
+        public DbSet<User> User { get; set; }
     }
 }

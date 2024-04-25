@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChessServerTCP.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240424120551_Initial")]
-    partial class Initial
+    [Migration("20240425112630_Add_User_Table")]
+    partial class Add_User_Table
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,33 @@ namespace ChessServerTCP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ChessServerTCP.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("totalLosses")
+                        .HasColumnType("int");
+
+                    b.Property<int>("totalWins")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {

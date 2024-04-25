@@ -1,27 +1,25 @@
-﻿using System.Security.Cryptography;
+﻿using BCrypt.Net;
+using System.Security.Cryptography;
+using System.Text;
 
 
 namespace ChessServerTCP.functions.SaltValue
 {
     public class SaltValue
     {
-
-        public byte[] getSaltedValue(string unsaltedString)
+        private const int keySize = 64;
+        private const int iterations = 350000;
+        private HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
+        public string getSaltedValue(string unsaltedString)
         {
-            Byte[] data = System.Text.Encoding.UTF8.GetBytes(unsaltedString);
+            string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
 
-            Byte[] hash = SHA256.Create().ComputeHash(data);
-
-            return hash;
+            return BCrypt.Net.BCrypt.HashPassword(unsaltedString, salt);
         }
 
-        public string parsedSaltedValue(byte[] data)
+        public bool parsedSaltedValue(string unsaltedPassword, string saltedPassword)
         {
-            byte[] unHashedSring = SHA256.HashData(data);
-
-            string parsedData = System.Text.Encoding.Default.GetString(unHashedSring);
-
-            return parsedData;
+            return BCrypt.Net.BCrypt.Verify(unsaltedPassword, saltedPassword);
         }
     }
 }
