@@ -14,14 +14,15 @@ namespace ChessServerTCP.Controllers
     [Route("[controller]")]
     public class AuthController: ControllerBase
     {
-
+        private readonly ILogger<AuthController> _logger;
         private readonly AppDBContext _dbContext;
         private SaltValue _salt;
 
-        public AuthController(AppDBContext context)
+        public AuthController(AppDBContext context, ILogger<AuthController> logger)
         {
             _dbContext = context;
             _salt = new SaltValue();
+            _logger = logger;
         }
 
 
@@ -33,13 +34,13 @@ namespace ChessServerTCP.Controllers
             if (existingUser == null) throw new Exception("Email is already in use");
             var hashedPassword = _salt.getSaltedValue(password);
 
-            var user = new User { Id = 12241331, totalWins = 0, totalLosses = 0, email = email, password=hashedPassword };
+            var user = new User { totalWins = 0, totalLosses = 0, email = email, password=hashedPassword };
 
             try
             {
                 _dbContext.User.Add(user);
                 await _dbContext.SaveChangesAsync();
-                return CreatedAtAction(nameof(createAccount), new { user.Id }, user);
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -59,7 +60,7 @@ namespace ChessServerTCP.Controllers
 
             if (!_salt.parsedSaltedValue(password, existingUser.password)) throw new Exception("Invalid username or password");
 
-            return Ok(User);
+            return Ok(existingUser);
 
 
         }
