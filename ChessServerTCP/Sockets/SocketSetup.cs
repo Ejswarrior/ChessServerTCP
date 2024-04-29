@@ -24,7 +24,29 @@ public class SocketSetup
             SocketType.Stream,
             ProtocolType.Tcp);
 
+            listener.Bind(iPEndPoint);
+            listener.Listen(100);
+
+            var handler = await listener.AcceptAsync();
+            
+            while(handler.Connected)
+            {
+                var buffer = new byte[1024];
+                var recieved = await handler.ReceiveAsync(buffer, SocketFlags.None);
+                var response = Encoding.UTF8.GetString(buffer, 0, recieved);
+
+                
+               if(response != null)
+                {
+                    
+                    
+                    
+                }
+                   
+
 
 
         }
+
+    }
     }
