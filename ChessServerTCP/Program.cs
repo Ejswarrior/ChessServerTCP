@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ChessServerTCP.Models;
 using Microsoft.AspNetCore.Identity;
+using ChessServerTCP.Sockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+var socket = new SocketSetup();
+Console.WriteLine("Hello");
+socket.intializeSocket();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -29,3 +33,4 @@ app.UseAuthentication();
 app.MapControllers();
 
 app.Run();
+

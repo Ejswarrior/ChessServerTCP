@@ -24,11 +24,12 @@ public class SocketSetup
             SocketType.Stream,
             ProtocolType.Tcp);
 
+        Console.WriteLine("Listening on:");
+            Console.WriteLine(iPEndPoint.ToString());
             listener.Bind(iPEndPoint);
             listener.Listen(100);
 
             var handler = await listener.AcceptAsync();
-            
             while(handler.Connected)
             {
                 var buffer = new byte[1024];
@@ -38,15 +39,10 @@ public class SocketSetup
                 
                if(response != null)
                 {
-                    
-                    
-                    
+
+                    var responseMessage = Encoding.UTF8.GetBytes("Send message");
+                    await handler.SendAsync(responseMessage);
                 }
-                   
-
-
-
         }
-
     }
     }
