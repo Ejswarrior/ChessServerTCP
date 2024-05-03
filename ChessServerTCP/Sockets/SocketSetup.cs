@@ -40,23 +40,24 @@ public class SocketSetup
 
             while(true)
             {
-            Console.WriteLine("connection created");
+                Console.WriteLine("connection created");
 
-                var buffer = new byte[1024];
+                var buffer = new byte[100];
 
-            Console.WriteLine(buffer);
+                Console.WriteLine(buffer);
                 var recieved = await handler.ReceiveAsync(buffer, SocketFlags.None);
             Console.WriteLine(recieved.ToString());
                 var response = Encoding.UTF8.GetString(buffer, 0, recieved);
                 
-            Console.WriteLine(response);
-                
+                Console.WriteLine(response);
+            break; 
+        /*        
                if(response != null)
                 {
 
                     var responseMessage = Encoding.UTF8.GetBytes("Send message");
                     await handler.SendAsync(responseMessage);
-                }
+                }*/
         }
     }
     }
