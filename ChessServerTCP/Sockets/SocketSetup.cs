@@ -32,10 +32,11 @@ public class SocketSetup
         Console.WriteLine("Listening on:");
          Console.WriteLine(iPEndPoint.Address.ToString());
             listener.Bind(iPEndPoint);
-            listener.Listen();
+            listener.Listen(100);
 
         Console.WriteLine("before listener");
          var handler = await listener.AcceptAsync();
+
         Console.WriteLine("Before connection");
 
             while(true)
@@ -46,18 +47,17 @@ public class SocketSetup
 
                 Console.WriteLine(buffer);
                 var recieved = await handler.ReceiveAsync(buffer, SocketFlags.None);
-            Console.WriteLine(recieved.ToString());
+                Console.WriteLine(recieved.ToString());
                 var response = Encoding.UTF8.GetString(buffer, 0, recieved);
                 
                 Console.WriteLine(response);
-            break; 
-        /*        
-               if(response != null)
-                {
 
-                    var responseMessage = Encoding.UTF8.GetBytes("Send message");
-                    await handler.SendAsync(responseMessage);
-                }*/
+            if (response != null)
+            {
+                var responseMessage = Encoding.UTF8.GetBytes("Send message");
+                await handler.SendAsync(responseMessage, 0);
+            }
+
         }
     }
     }
