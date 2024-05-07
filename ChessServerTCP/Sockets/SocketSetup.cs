@@ -43,15 +43,14 @@ public class SocketSetup
             {
                 Console.WriteLine("connection created");
 
-                var buffer = new byte[100];
+                var buffer = new byte[48];
 
                 Console.WriteLine(buffer);
                 var recieved = await handler.ReceiveAsync(buffer, SocketFlags.None);
-                Console.WriteLine(recieved.ToString());
-                var response = Encoding.UTF8.GetString(buffer, 0, recieved);
+                Console.WriteLine(recieved);
+                var response = Encoding.ASCII.GetChars(buffer, 0, recieved);
                 
                 Console.WriteLine(response);
-
             if (response != null)
             {
                 var responseMessage = Encoding.UTF8.GetBytes("Send message");
