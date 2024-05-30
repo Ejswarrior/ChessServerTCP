@@ -27,14 +27,14 @@ namespace ChessServerTCP.Controllers
 
 
         [HttpPost(Name = "/create-account")]
-        public async Task<IActionResult> createAccount(string email, string password)
+        public async Task<IActionResult> createAccount(string email, string password, string name)
         {
             var existingUser = _dbContext.User.Where(user => user.email == email);
 
             if (existingUser == null) throw new Exception("Email is already in use");
             var hashedPassword = _salt.getSaltedValue(password);
 
-            var user = new User { totalWins = 0, totalLosses = 0, email = email, password=hashedPassword };
+            var user = new User { totalWins = 0, totalLosses = 0, email = email, password=hashedPassword, firstName=name };
 
             try
             {
