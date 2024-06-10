@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChessServerTCP.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240530113324_User_Name_add")]
-    partial class User_Name_add
+    [Migration("20240610113328_AddFirstName")]
+    partial class AddFirstName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,8 +45,7 @@ namespace ChessServerTCP.Migrations
 
                     b.Property<string>("password")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("totalLosses")
                         .HasColumnType("int");

@@ -42,8 +42,7 @@ namespace ChessServerTCP.Migrations
 
                     b.Property<string>("password")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("totalLosses")
                         .HasColumnType("int");

@@ -46,6 +46,7 @@ namespace ChessServerTCP.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 return BadRequest();
             }
 
@@ -56,6 +57,7 @@ namespace ChessServerTCP.Controllers
         public IActionResult login(string email, string password)
         {
 
+            Console.WriteLine("Hit login route");
             var existingUser = _dbContext.User.Where<User>(_user => _user.email == email).FirstOrDefault();
 
             if (existingUser == null) throw new Exception("Invalid username or password");

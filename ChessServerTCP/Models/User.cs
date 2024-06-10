@@ -11,15 +11,13 @@ namespace ChessServerTCP.Models
         [Required]
         [MaxLength(50)]
         public string email { get; set; }
-        [Required, MaxLength(50)]
-        public string firstName { get; set; }
         [Required]
-        [MaxLength(25)]
         public string password { get; set; }
-
         [AllowNull]
         public int totalWins { get; set; }
         [AllowNull]
         public int totalLosses { get; set; }
+        [Required, MaxLength(50)]
+        public string firstName { get; set; }
     }
 }
