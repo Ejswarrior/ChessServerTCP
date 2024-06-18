@@ -7,6 +7,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Identity.Core;
+using System.Text;
+
+public interface CreateAcountDto {
+    public string email { get; set; }
+    public string password { get; set; }
+    public string name { get; set; }
+}
+
 
 namespace ChessServerTCP.Controllers
 {
@@ -26,29 +34,38 @@ namespace ChessServerTCP.Controllers
         }
 
 
-        [HttpPost(Name = "/create-account")]
-        public async Task<IActionResult> createAccount(string email, string password, string name)
+        [HttpPost]
+        public async Task<ActionResult<User>> CreateAccount([FromBody] string content)
         {
-            Console.WriteLine("hit here");
-            var existingUser = _dbContext.User.Where(user => user.email == email);
-
-            if (existingUser == null) throw new Exception("Email is already in use");
-            var hashedPassword = _salt.getSaltedValue(password);
-
-            var user = new User { totalWins = 0, totalLosses = 0, email = email, password=hashedPassword, firstName=name };
-          
-            try
+            Console.WriteLine(content);
+            string rawContent = string.Empty;
+            using (var reader = new StreamReader(content,
+                          encoding: Encoding.UTF8, detectEncodingFromByteOrderMarks: false))
             {
-                _dbContext.User.Add(user);
-                await _dbContext.SaveChangesAsync();
-                Console.WriteLine("User added");
-                return Ok(user);
+                rawContent = await reader.ReadToEndAsync();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return BadRequest();
-            }
+            Console.WriteLine(rawContent);
+            /*  var existingUser = _dbContext.User.Where(user => user.email == email);
+
+              if (existingUser == null) throw new Exception("Email is already in use");
+              var hashedPassword = _salt.getSaltedValue(email);
+
+              var user = new User { totalWins = 0, totalLosses = 0, email = email, password=hashedPassword, firstName= email };
+
+              try
+              {
+                  _dbContext.User.Add(user);
+                  await _dbContext.SaveChangesAsync();
+                  Console.WriteLine("User added");
+                  return Ok(user);
+              }
+              catch (Exception ex)
+              {
+                  Console.WriteLine(ex.ToString());
+                  return BadRequest();
+              }*/
+
+            return Ok(rawContent);
 
         }
 

@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ChessServerTCP.Models;
 using Microsoft.AspNetCore.Identity;
 using ChessServerTCP.Sockets;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,22 +13,24 @@ builder.Services.AddScoped<AppDBContext>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-/*builder.Services.AddSwaggerGen();
-*/
+/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+*/builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 /*var socket = new SocketSetup();
 */Console.WriteLine("Hello");
 /*socket.intializeSocket();
 */
 // Configure the HTTP request pipeline.
-/*if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}*/
-
+}
 
 app.UseHttpsRedirection();
+/*app.UseAuthentication();
+app.UseAuthorization();*/
 
 app.MapControllers();
 
