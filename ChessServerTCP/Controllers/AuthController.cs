@@ -60,9 +60,14 @@ namespace ChessServerTCP.Controllers
             Console.WriteLine("Hit login route");
             var existingUser = _dbContext.User.Where<User>(_user => _user.email == email).FirstOrDefault();
 
-            if (existingUser == null) throw new Exception("Invalid username or password");
+            if (existingUser == null)
+            {
+                Console.WriteLine("No user");
+                return Unauthorized();
+            }
 
-            if (!_salt.parsedSaltedValue(password, existingUser.password)) throw new Exception("Invalid username or password");
+
+                if (!_salt.parsedSaltedValue(password, existingUser.password)) Console.WriteLine("invalid password");
 
             return Ok(existingUser);
 
